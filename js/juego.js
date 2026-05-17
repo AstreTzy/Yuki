@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- * 💖 DECLARACIÓN DE AMOR: ANTONIO & JUKARY
+ * 💖 DECLARACIÓN DE AMOR: ANTONIO & JUKARY (CORREGIDO)
  * ============================================================================
  */
 
@@ -215,7 +215,9 @@ class EscenaJuego extends Phaser.Scene {
                 c.disponible = false; this.sndCaja.play();
                 this.textoCartel.setPosition(c.x, c.y - 60).setText(c.mensaje).setVisible(true).setScale(0).setAlpha(1);
                 this.tweens.add({ targets: this.textoCartel, scale: 1, duration: 300, ease: 'Back.easeOut' });
-                this.time.delayedCall(2500, () => { Component = this.tweens.add({ targets: this.textoCartel, alpha: 0, duration: 500, onComplete: () => { this.textoCartel.setVisible(false); c.disponible = true; }}); });
+                this.time.delayedCall(2500, () => { 
+                    this.tweens.add({ targets: this.textoCartel, alpha: 0, duration: 500, onComplete: () => { this.textoCartel.setVisible(false); c.disponible = true; }}); 
+                });
             }
         });
     }
@@ -294,13 +296,11 @@ class EscenaJuego extends Phaser.Scene {
         const camX = this.cameras.main.scrollX + (this.cameras.main.width / 2);
         const camY = this.cameras.main.scrollY + (this.cameras.main.height / 2);
 
-        // BOTÓN SÍ (Contenedor con círculo verde y texto)
         let btnSi = this.add.container(camX - 120, camY + 80).setDepth(10000).setScale(0);
         let circuloSi = this.add.circle(0, 0, 50, 0x2ecc71).setInteractive({ useHandCursor: true });
         let textoSi = this.add.text(0, 0, 'SÍ', { fontSize: '24px', fontFamily: 'Cinzel Decorative', fill: '#fff', fontWeight: 'bold' }).setOrigin(0.5);
         btnSi.add([circuloSi, textoSi]);
 
-        // BOTÓN NO (Contenedor con círculo rojo y texto)
         let btnNo = this.add.container(camX + 120, camY + 80).setDepth(10000).setScale(0);
         let circuloNo = this.add.circle(0, 0, 50, 0xe74c3c).setInteractive({ useHandCursor: true });
         let textoNo = this.add.text(0, 0, 'NO', { fontSize: '24px', fontFamily: 'Cinzel Decorative', fill: '#fff', fontWeight: 'bold' }).setOrigin(0.5);
@@ -308,7 +308,6 @@ class EscenaJuego extends Phaser.Scene {
         
         this.tweens.add({ targets: [btnSi, btnNo], scale: 1, duration: 800, ease: 'Back.easeOut' });
         
-        // ACCIÓN AL PRESIONAR SÍ
         circuloSi.on('pointerup', () => {
             this.sndClic.play();
             btnSi.destroy();
@@ -316,11 +315,10 @@ class EscenaJuego extends Phaser.Scene {
             this.txtPerro.setText("¡SABÍA QUE DIRÍAS QUE SÍ!\n\n💖 ¡TE AMO CON TODO MI CORAZÓN! 💖\nGracias por ser mi compañera de vida.");
         });
 
-        // ACCIÓN AL PRESIONAR NO (Bucle interactivo divertido)
         circuloNo.on('pointerup', () => {
             this.sndClic.play();
             this.txtPerro.setText("¡ERROR 404!\nEsa opción no está disponible.\n\nInténtalo de nuevo... 😉");
-            this.tweens.add({ targets: btnNo, x: camX + (Phaser.Math.Between(100, 200)), y: camY + (Phaser.Math.Between(40, 120)), duration: 200 }); // El botón se mueve un poco
+            this.tweens.add({ targets: btnNo, x: camX + (Phaser.Math.Between(100, 200)), y: camY + (Phaser.Math.Between(40, 120)), duration: 200 });
         });
     }
 }
