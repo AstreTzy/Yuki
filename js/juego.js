@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- * 💖 DECLARACIÓN DE AMOR: ANTONIO & JUKARY (BOTONES AJUSTADOS)
+ * 💖 DECLARACIÓN DE AMOR: ANTONIO & JUKARY (BOTONES ORIGINALES COMO SÍ/NO)
  * ============================================================================
  */
 
@@ -105,6 +105,8 @@ class EscenaJuego extends Phaser.Scene {
         this.load.image('suelo', 'img/suelo.png');
         this.load.image('caja_j', 'img/caja_animada_j.png');
         this.load.image('caja_c', 'img/caja_animada_c.png');
+        this.load.image('boton_confirmar', 'img/boton_confirmar.png');
+        this.load.image('boton_localizacion', 'img/localizacion.png');
         this.load.image('moneda_pixel', 'img/moneda_pixel.png');
         this.load.image('corazon', 'img/corazon.png');
         this.load.image('perro', 'img/perro.png');
@@ -296,36 +298,34 @@ class EscenaJuego extends Phaser.Scene {
         const camX = this.cameras.main.scrollX + (this.cameras.main.width / 2);
         const camY = this.cameras.main.scrollY + (this.cameras.main.height / 2);
 
-        // CORRECCIÓN: Botón SÍ directo en la escena con ScrollFactor(0) para asegurar interacción fija
-        this.circuloSi = this.add.circle(camX - 120, camY + 100, 50, 0x2ecc71).setDepth(10000).setScale(0).setInteractive({ useHandCursor: true });
-        this.textoSi = this.add.text(camX - 120, camY + 100, 'SÍ', { fontSize: '24px', fontFamily: 'Cinzel Decorative', fill: '#fff', fontWeight: 'bold' }).setOrigin(0.5).setDepth(10001).setScale(0);
+        // BOTÓN SÍ (Usando tu imagen original 'boton_confirmar')
+        this.imgSi = this.add.image(camX - 160, camY + 80, 'boton_confirmar').setDepth(10000).setScale(0);
+        // Hacemos interactiva la imagen usando sus dimensiones por defecto para asegurar el clic
+        this.imgSi.setInteractive({ useHandCursor: true });
 
-        // CORRECCIÓN: Botón NO directo en la escena
-        this.circuloNo = this.add.circle(camX + 120, camY + 100, 50, 0xe74c3c).setDepth(10000).setScale(0).setInteractive({ useHandCursor: true });
-        this.textoNo = this.add.text(camX + 120, camY + 100, 'NO', { fontSize: '24px', fontFamily: 'Cinzel Decorative', fill: '#fff', fontWeight: 'bold' }).setOrigin(0.5).setDepth(10001).setScale(0);
+        // BOTÓN NO (Usando tu imagen original 'boton_localizacion')
+        this.imgNo = this.add.image(camX + 160, camY + 80, 'boton_localizacion').setDepth(10000).setScale(0);
+        this.imgNo.setInteractive({ useHandCursor: true });
         
-        this.tweens.add({ targets: [this.circuloSi, this.textoSi, this.circuloNo, this.textoNo], scale: 1, duration: 800, ease: 'Back.easeOut' });
+        this.tweens.add({ targets: [this.imgSi, this.imgNo], scale: 0.8, duration: 800, ease: 'Back.easeOut' });
         
-        // ACCIÓN SÍ
-        this.circuloSi.on('pointerup', () => {
+        // ACCIÓN AL HACER CLIC EN 'boton_confirmar' (Actúa como SÍ)
+        this.imgSi.on('pointerup', () => {
             this.sndClic.play();
-            this.circuloSi.destroy();
-            this.textoSi.destroy();
-            this.circuloNo.destroy();
-            this.textoNo.destroy();
+            this.imgSi.destroy();
+            this.imgNo.destroy();
             this.txtPerro.setText("¡SABÍA QUE DIRÍAS QUE SÍ!\n\n💖 ¡TE AMO CON TODO MI CORAZÓN! 💖\nGracias por ser mi compañera de vida.");
         });
 
-        // ACCIÓN NO (Mueve el botón y cambia el texto)
-        this.circuloNo.on('pointerup', () => {
+        // ACCIÓN AL HACER CLIC EN 'boton_localizacion' (Actúa como NO)
+        this.imgNo.on('pointerup', () => {
             this.sndClic.play();
             this.txtPerro.setText("¡ERROR 404!\nEsa opción no está disponible.\n\nInténtalo de nuevo... 😉");
             
-            let nuevoX = camX + Phaser.Math.Between(80, 220);
-            let nuevoY = camY + Phaser.Math.Between(60, 140);
-            
-            this.circuloNo.setPosition(nuevoX, nuevoY);
-            this.textoNo.setPosition(nuevoX, nuevoY);
+            // Mueve el botón de forma aleatoria para ponérselo difícil
+            let nuevoX = camX + Phaser.Math.Between(100, 240);
+            let nuevoY = camY + Phaser.Math.Between(40, 140);
+            this.imgNo.setPosition(nuevoX, nuevoY);
         });
     }
 }
