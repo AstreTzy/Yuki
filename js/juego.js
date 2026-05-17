@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- * 💖 DECLARACIÓN DE AMOR: ANTONIO & JUKARY (CORREGIDO)
+ * 💖 DECLARACIÓN DE AMOR: ANTONIO & JUKARY (BOTONES AJUSTADOS)
  * ============================================================================
  */
 
@@ -296,29 +296,36 @@ class EscenaJuego extends Phaser.Scene {
         const camX = this.cameras.main.scrollX + (this.cameras.main.width / 2);
         const camY = this.cameras.main.scrollY + (this.cameras.main.height / 2);
 
-        let btnSi = this.add.container(camX - 120, camY + 80).setDepth(10000).setScale(0);
-        let circuloSi = this.add.circle(0, 0, 50, 0x2ecc71).setInteractive({ useHandCursor: true });
-        let textoSi = this.add.text(0, 0, 'SÍ', { fontSize: '24px', fontFamily: 'Cinzel Decorative', fill: '#fff', fontWeight: 'bold' }).setOrigin(0.5);
-        btnSi.add([circuloSi, textoSi]);
+        // CORRECCIÓN: Botón SÍ directo en la escena con ScrollFactor(0) para asegurar interacción fija
+        this.circuloSi = this.add.circle(camX - 120, camY + 100, 50, 0x2ecc71).setDepth(10000).setScale(0).setInteractive({ useHandCursor: true });
+        this.textoSi = this.add.text(camX - 120, camY + 100, 'SÍ', { fontSize: '24px', fontFamily: 'Cinzel Decorative', fill: '#fff', fontWeight: 'bold' }).setOrigin(0.5).setDepth(10001).setScale(0);
 
-        let btnNo = this.add.container(camX + 120, camY + 80).setDepth(10000).setScale(0);
-        let circuloNo = this.add.circle(0, 0, 50, 0xe74c3c).setInteractive({ useHandCursor: true });
-        let textoNo = this.add.text(0, 0, 'NO', { fontSize: '24px', fontFamily: 'Cinzel Decorative', fill: '#fff', fontWeight: 'bold' }).setOrigin(0.5);
-        btnNo.add([circuloNo, textoNo]);
+        // CORRECCIÓN: Botón NO directo en la escena
+        this.circuloNo = this.add.circle(camX + 120, camY + 100, 50, 0xe74c3c).setDepth(10000).setScale(0).setInteractive({ useHandCursor: true });
+        this.textoNo = this.add.text(camX + 120, camY + 100, 'NO', { fontSize: '24px', fontFamily: 'Cinzel Decorative', fill: '#fff', fontWeight: 'bold' }).setOrigin(0.5).setDepth(10001).setScale(0);
         
-        this.tweens.add({ targets: [btnSi, btnNo], scale: 1, duration: 800, ease: 'Back.easeOut' });
+        this.tweens.add({ targets: [this.circuloSi, this.textoSi, this.circuloNo, this.textoNo], scale: 1, duration: 800, ease: 'Back.easeOut' });
         
-        circuloSi.on('pointerup', () => {
+        // ACCIÓN SÍ
+        this.circuloSi.on('pointerup', () => {
             this.sndClic.play();
-            btnSi.destroy();
-            btnNo.destroy();
+            this.circuloSi.destroy();
+            this.textoSi.destroy();
+            this.circuloNo.destroy();
+            this.textoNo.destroy();
             this.txtPerro.setText("¡SABÍA QUE DIRÍAS QUE SÍ!\n\n💖 ¡TE AMO CON TODO MI CORAZÓN! 💖\nGracias por ser mi compañera de vida.");
         });
 
-        circuloNo.on('pointerup', () => {
+        // ACCIÓN NO (Mueve el botón y cambia el texto)
+        this.circuloNo.on('pointerup', () => {
             this.sndClic.play();
             this.txtPerro.setText("¡ERROR 404!\nEsa opción no está disponible.\n\nInténtalo de nuevo... 😉");
-            this.tweens.add({ targets: btnNo, x: camX + (Phaser.Math.Between(100, 200)), y: camY + (Phaser.Math.Between(40, 120)), duration: 200 });
+            
+            let nuevoX = camX + Phaser.Math.Between(80, 220);
+            let nuevoY = camY + Phaser.Math.Between(60, 140);
+            
+            this.circuloNo.setPosition(nuevoX, nuevoY);
+            this.textoNo.setPosition(nuevoX, nuevoY);
         });
     }
 }
