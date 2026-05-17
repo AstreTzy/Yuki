@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- * 💍 INVITACIÓN DE BODA MÁGICA: ANTONIO & JUKARY
+ * 💖 DECLARACIÓN DE AMOR: ANTONIO & JUKARY
  * ============================================================================
  */
 
@@ -63,7 +63,7 @@ class EscenaIntro extends Phaser.Scene {
         fondo.on('pointerup', () => { if (this.sound.context.state === 'suspended') this.sound.context.resume(); this.sndClic.play(); this.iniciarAnimacionSobre(); this.btnContainer.destroy(); });
     }
     iniciarAnimacionSobre() {
-        this.tweens.add({ targets: this.sobreContainer, scaleX: 0, duration: 600, yoyo: true, onYoyo: () => { this.trasera.setVisible(false); this.textoAd.setVisible(false); this.frontal.setVisible(true); this.solapa.setVisible(true); }, onComplete: () => { this.tweens.add({ targets: this.solapa, scaleY: -1, duration: 600, onComplete: () => { this.papel.setPosition(this.cameras.main.centerX, this.cameras.main.centerY); this.sobreContainer.remove(this.papel); this.add.existing(this.papel).setDepth(100); this.tweens.add({ targets: this.papel, scale: 0.8, alpha: 1, angle: 360, duration: 1500, ease: 'Back.easeOut', onComplete: () => { this.escribirTexto("Mi amada Jukary...\n\nNuestra historia es la magia más real que he conocido. Quiero caminar y vivir toda la vida a tu lado.\n\n¿Me acompañas en el viaje definitivo?\n\n04.07.2026"); } }); } }); } });
+        this.tweens.add({ targets: this.sobreContainer, scaleX: 0, duration: 600, yoyo: true, onYoyo: () => { this.trasera.setVisible(false); this.textoAd.setVisible(false); this.frontal.setVisible(true); this.solapa.setVisible(true); }, onComplete: () => { this.tweens.add({ targets: this.solapa, scaleY: -1, duration: 600, onComplete: () => { this.papel.setPosition(this.cameras.main.centerX, this.cameras.main.centerY); this.sobreContainer.remove(this.papel); this.add.existing(this.papel).setDepth(100); this.tweens.add({ targets: this.papel, scale: 0.8, alpha: 1, angle: 360, duration: 1500, ease: 'Back.easeOut', onComplete: () => { this.escribirTexto("Mi amada Jukary...\n\nNuestra historia es la magia más real que he conocido. He preparado este pequeño reto para ti...\n\n¿Aceptas el desafío?"); } }); } }); } });
     }
     escribirTexto(m) {
         let i = 0; this.sndEscribir.play();
@@ -105,8 +105,6 @@ class EscenaJuego extends Phaser.Scene {
         this.load.image('suelo', 'img/suelo.png');
         this.load.image('caja_j', 'img/caja_animada_j.png');
         this.load.image('caja_c', 'img/caja_animada_c.png');
-        this.load.image('boton_confirmar', 'img/boton_confirmar.png');
-        this.load.image('boton_localizacion', 'img/localizacion.png');
         this.load.image('moneda_pixel', 'img/moneda_pixel.png');
         this.load.image('corazon', 'img/corazon.png');
         this.load.image('perro', 'img/perro.png');
@@ -189,7 +187,6 @@ class EscenaJuego extends Phaser.Scene {
         this.textoCartel = this.add.text(0, 0, '', { fontSize: '18px', fill: '#fff', backgroundColor: '#8b0000', padding: { x: 15, y: 10 }, align: 'center', wordWrap: { width: 300 } }).setOrigin(0.5, 1).setVisible(false).setDepth(2000).setStroke('#d4af37', 4);
         const tc = (personajeElegido === 'novio') ? 'caja_j' : 'caja_c';
         
-        // FRASES PERSONALIZADAS PARA LAS CAJAS
         const ms = [
             "¡CADA DÍA A TU LADO ES MI NIVEL FAVORITO!",
             "ERES LA RESPUESTA A TODAS MIS MISIONES.",
@@ -218,7 +215,7 @@ class EscenaJuego extends Phaser.Scene {
                 c.disponible = false; this.sndCaja.play();
                 this.textoCartel.setPosition(c.x, c.y - 60).setText(c.mensaje).setVisible(true).setScale(0).setAlpha(1);
                 this.tweens.add({ targets: this.textoCartel, scale: 1, duration: 300, ease: 'Back.easeOut' });
-                this.time.delayedCall(2500, () => { this.tweens.add({ targets: this.textoCartel, alpha: 0, duration: 500, onComplete: () => { this.textoCartel.setVisible(false); c.disponible = true; }}); });
+                this.time.delayedCall(2500, () => { Component = this.tweens.add({ targets: this.textoCartel, alpha: 0, duration: 500, onComplete: () => { this.textoCartel.setVisible(false); c.disponible = true; }}); });
             }
         });
     }
@@ -272,9 +269,8 @@ class EscenaJuego extends Phaser.Scene {
         });
     }
     escribirMensajePerro() {
-        // MENSAJE FINAL ROMÁNTICO PERSONALIZADO
-        let m = "¡GUAU! ¡VIVAN LOS NOVIOS!\nANTONIO Y JUKARY POR SIEMPRE.";
-        if (this.puntos >= 10) m = "¡LEVEL CLEAR! AMOR AL 100%.\n\nJUKARY, QUIERO VIVIR TODA MI VIDA CONTIGO.\n¿ACEPTAS SER MI COMPAÑERA DE POR VIDA?\n\n💍 NOS VEMOS EN EL ALTAR EL 04.07.2026 💍";
+        let m = "¡GUAU! ANTONIO Y JUKARY POR SIEMPRE.";
+        if (this.puntos >= 10) m = "¡LEVEL CLEAR! AMOR AL 100%.\n\nJUKARY, ERES LO MEJOR QUE ME HA PASADO.\nQUIERO VIVIR TODA MI VIDA CONTIGO.\n\n¿ACEPTAS SEGUIR ESTA AVENTURA A MI LADO?";
         
         this.txtPerro = this.add.text(this.perro.x, this.perro.y - 140, "", { 
             fontSize: '22px', fill: '#ffd700', fontFamily: 'Cinzel Decorative', 
@@ -298,13 +294,34 @@ class EscenaJuego extends Phaser.Scene {
         const camX = this.cameras.main.scrollX + (this.cameras.main.width / 2);
         const camY = this.cameras.main.scrollY + (this.cameras.main.height / 2);
 
-        let bC = this.add.image(camX - 160, camY, 'boton_confirmar').setDepth(10000).setScale(0).setInteractive({useHandCursor:true});
-        let bM = this.add.image(camX + 160, camY, 'boton_localizacion').setDepth(10000).setScale(0).setInteractive({useHandCursor:true});
+        // BOTÓN SÍ (Contenedor con círculo verde y texto)
+        let btnSi = this.add.container(camX - 120, camY + 80).setDepth(10000).setScale(0);
+        let circuloSi = this.add.circle(0, 0, 50, 0x2ecc71).setInteractive({ useHandCursor: true });
+        let textoSi = this.add.text(0, 0, 'SÍ', { fontSize: '24px', fontFamily: 'Cinzel Decorative', fill: '#fff', fontWeight: 'bold' }).setOrigin(0.5);
+        btnSi.add([circuloSi, textoSi]);
+
+        // BOTÓN NO (Contenedor con círculo rojo y texto)
+        let btnNo = this.add.container(camX + 120, camY + 80).setDepth(10000).setScale(0);
+        let circuloNo = this.add.circle(0, 0, 50, 0xe74c3c).setInteractive({ useHandCursor: true });
+        let textoNo = this.add.text(0, 0, 'NO', { fontSize: '24px', fontFamily: 'Cinzel Decorative', fill: '#fff', fontWeight: 'bold' }).setOrigin(0.5);
+        btnNo.add([circuloNo, textoNo]);
         
-        this.tweens.add({ targets: [bC, bM], scale: 0.8, duration: 800, ease: 'Back.easeOut' });
+        this.tweens.add({ targets: [btnSi, btnNo], scale: 1, duration: 800, ease: 'Back.easeOut' });
         
-        bC.on('pointerup', () => { window.open('https://forms.gle/FtZQjSv3nVLyfUpx6', '_blank'); });
-        bM.on('pointerup', () => { window.open('https://maps.app.goo.gl/Z1tjRdbwsvhHGo5SA', '_blank'); });
+        // ACCIÓN AL PRESIONAR SÍ
+        circuloSi.on('pointerup', () => {
+            this.sndClic.play();
+            btnSi.destroy();
+            btnNo.destroy();
+            this.txtPerro.setText("¡SABÍA QUE DIRÍAS QUE SÍ!\n\n💖 ¡TE AMO CON TODO MI CORAZÓN! 💖\nGracias por ser mi compañera de vida.");
+        });
+
+        // ACCIÓN AL PRESIONAR NO (Bucle interactivo divertido)
+        circuloNo.on('pointerup', () => {
+            this.sndClic.play();
+            this.txtPerro.setText("¡ERROR 404!\nEsa opción no está disponible.\n\nInténtalo de nuevo... 😉");
+            this.tweens.add({ targets: btnNo, x: camX + (Phaser.Math.Between(100, 200)), y: camY + (Phaser.Math.Between(40, 120)), duration: 200 }); // El botón se mueve un poco
+        });
     }
 }
 
