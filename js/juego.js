@@ -33,7 +33,7 @@ class EscenaIntro extends Phaser.Scene {
         const cSobre = 0x5d4037; 
         this.sobreContainer = this.add.container(midX, midY);
         this.trasera = this.add.rectangle(0, 0, 420, 280, cSobre).setStrokeStyle(4, 0x3e2723);
-        this.textoAd = this.add.text(0, 0, 'SÓLO PARA MI BRUJA\nFAVORITA', { fontSize: '22px', fill: '#d4af37', align: 'center', fontFamily: 'Cinzel Decorative' }).setOrigin(0.5);
+        this.textoAd = this.add.text(0, 0, 'SÓLO PARA El Amor De Mi Vida', { fontSize: '22px', fill: '#d4af37', align: 'center', fontFamily: 'Cinzel Decorative' }).setOrigin(0.5);
         this.frontal = this.add.rectangle(0, 0, 420, 280, cSobre).setStrokeStyle(4, 0x3e2723).setVisible(false);
         this.solapa = this.add.graphics().setVisible(false).fillStyle(cSobre).lineStyle(4, 0x3e2723);
         this.solapa.fillTriangle(-210, 0, 210, 0, 0, 150).strokeTriangle(-210, 0, 210, 0, 0, 150);
